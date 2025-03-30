@@ -345,7 +345,40 @@ const Dashboard=async(req,res,next)=>{
 
     }))
 
-    res.status(200).json({Dshboard:user})
+    res.status(200).json({Dashboard:user})
 }
 
-module.exports={Register,verifyOtp,resendOtp,Login,lognOut,Dashboard} ;
+const updateUser=async(req,res,next)=>{
+    try {
+        
+         const {Fname,Lname,email,password}=req.body;
+         
+         const id=req.session.user._id;
+         if(!id)return res.status(400).json({message:'User id required'});
+         const user=await User.findById({_id:id})
+         if(!user)return res.status(404).json({message:'User not found'});
+         let hashPassword
+         if(password){
+            hashPassword=await bcrypt.hash(password,10);
+         };
+         
+         let userSave;
+         try {
+             userSave=await User.findByIdAndUpdate({_id:id},{$set:{Fname,Lname,email,password:password ? hashPassword:user.password}},{new:true});
+         } catch (error) {
+           const errors= new Error(error);
+           errors.statusCode=500;
+           return next(errors);
+         } ;
+ 
+         res.status(200).json({User:'User updated successfully!, please check your dashboard'});
+ 
+    } catch (error) {
+ 
+       const errors= new Error(error);
+       errors.statusCode=500;
+       return next(errors);
+    }
+ };
+
+module.exports={Register,verifyOtp,resendOtp,Login,lognOut,Dashboard,updateUser} ;
