@@ -1,5 +1,12 @@
-const {addEmployee,updateEmployee, updateEmployeeRole}=require('../controllers/employee');
-const {unauthrized,Admin}=require('../middlewares/authorize');
+const {
+    addEmployee,
+    updateEmployee,
+     updateEmployeeRole
+}=require('../controllers/employee');
+const {
+    unauthrized,
+    Admin
+}=require('../middlewares/authorize');
 const {addEmployeeValidator}=require("../middlewares/validations")
 
 const router=require('express').Router();

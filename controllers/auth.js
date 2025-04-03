@@ -2,7 +2,7 @@ const User=require('../modeles/User');
 const bcrypt=require('bcrypt')
 const crypto=require('crypto');
 const {addMinutes}=require('date-fns')
-const nodemailer=require('nodemailer');
+const {transporter}=require('../middlewares/nodemailer')
 const {validationResult}=require('express-validator');
 
 
@@ -38,14 +38,7 @@ const Register=async(req,res,next)=>{
             Otp:otp,
             otpExpired
         })
-        const transporter=nodemailer.createTransport({
-            service:'gmail',
-            secure:true,
-            auth:{
-                user:process.env.Email,
-                pass:process.env.EMAIL_PASS
-            }
-        });
+     
 
         await transporter.sendMail({
             from:process.env.EMAIL,
@@ -186,14 +179,6 @@ const resendOtp=async(req,res,next)=>{
         user.Otp=otp;
         user.otpExpired=otpExpired;
         await user.save();
-
-        const transporter=nodemailer.createTransport({
-            service:'gmail',
-            auth:{
-                user:process.env.Email,
-                pass:process.env.EMAIL_PASS
-            }
-        });
 
         await transporter.sendMail({
             from:process.env.EMAIL,
