@@ -38,7 +38,7 @@ app.use(session({
     }
 }))
 app.use(cors({
-    origin:process.env.FRONTEND_URL,
+    origin:'https://binary-hub.onrender.com',
     allowedHeaders: "Content-Type",
     credentials:true,
     methods:['GET','POST','PUT','PUCH','DELETE']
