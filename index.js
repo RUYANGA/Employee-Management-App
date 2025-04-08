@@ -39,7 +39,7 @@ app.use(session({
 }))
 app.use(cors({
     origin:process.env.FRONTEND_URL,
-    allowedHeaders: "Content-Type, Authorization",
+    allowedHeaders: "Content-Type",
     credentials:true,
     methods:['GET','POST','PUT','PUCH','DELETE']
 }))
